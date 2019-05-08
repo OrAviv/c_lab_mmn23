@@ -41,14 +41,14 @@ UniqueFibList uniqueFibListCreate (int number)
         }
         first_element->data = fib(0);
         second_element->data = fib(1);
-        new_list->element_list = second_element;
-        new_list->element_list->next = first_element;
-        first_element->next = second_element;
+        new_list->element_list = first_element;
+        new_list->element_list->next = second_element;
         new_list->fib_zero = &first_element;
-        new_list->head = &second_element;
+        second_element->next = NULL;
         if (newFibList(new_list,number) == UNIQUE_FIB_LIST_SUCCESS)
         {
-            first_element->next = new_list->head;
+            flipList(new_list);
+            first_element->next = *new_list->head;
             return new_list;
         }
         else
@@ -102,6 +102,8 @@ UniqueFibListResult newFibList (UniqueFibList list, int number)
     long int current_fib = 1;
     long int new_fib = 0;
 
+    while (list->element_list->next != NULL)
+        list->element_list = list->element_list->next;
     for (int i = 2; i <= number ; i++)
     {
         ElementList element = malloc(sizeof(*element));
@@ -111,11 +113,35 @@ UniqueFibListResult newFibList (UniqueFibList list, int number)
         previous_fib = current_fib;
         current_fib = new_fib;
         element->data = new_fib;
-        element->next = *list->head;
-        list->head = &element;
+        element->next = NULL;
+        list->element_list->next = element;
     }
     return UNIQUE_FIB_LIST_SUCCESS;
 
+}
+
+void flipList(UniqueFibList list)
+{
+    list->element_list = *list->fib_zero;
+    ElementList help_head = *list->fib_zero;
+    ElementList support_node = list->element_list->next->next;
+
+    list->element_list = list->element_list->next;
+    help_head->next = NULL;
+    list->element_list->next = help_head;
+    help_head = list->element_list;
+    list->element_list = support_node;
+
+    while (list->element_list != NULL)
+    {
+        support_node = support_node->next;
+        list->element_list->next = help_head;
+        help_head = list->element_list;
+        list->element_list = support_node;
+    }
+    list->head = &help_head;
+    free(help_head);
+    free(support_node);
 }
 
 void uniqueFibListDestroy(UniqueFibList list)
