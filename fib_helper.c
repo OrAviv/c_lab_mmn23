@@ -73,7 +73,7 @@ void uniqueFibListPrint (UniqueFibList fibList)
             printf("%ld \n",fibList->element_list->data);
             fibList->element_list = fibList->element_list->next;
         }
-        while (fibList->element_list->next != *(fibList->head));
+        while (fibList->element_list != *(fibList->head));
 }
 
 long int fib(int n)
@@ -106,15 +106,16 @@ UniqueFibListResult newFibList (UniqueFibList list, int number)
         list->element_list = list->element_list->next;
     for (int i = 2; i <= number ; i++)
     {
-        ElementList element = malloc(sizeof(*element));
-        if (element == NULL)
+        list->element_list->next = malloc(sizeof(ElementList));
+        list->element_list = list->element_list->next;
+        //ElementList element = malloc(sizeof(*element));
+        if (list->element_list == NULL)
             return UNIQUE_FIB_LIST_NULL_ARGUMENT;
         new_fib = current_fib + previous_fib;
         previous_fib = current_fib;
         current_fib = new_fib;
-        element->data = new_fib;
-        element->next = NULL;
-        list->element_list->next = element;
+        list->element_list->data = new_fib;
+        list->element_list->next = NULL;
     }
     return UNIQUE_FIB_LIST_SUCCESS;
 
