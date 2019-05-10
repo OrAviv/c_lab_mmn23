@@ -52,10 +52,8 @@ UniqueFibList uniqueFibListCreate (int number)
             return new_list;
         }
         else
-        {
-            uniqueFibListDestroy(new_list);
             return NULL;
-        }
+
     }
     first_element->data = fib(0);
     new_list->element_list  = first_element;
@@ -142,20 +140,6 @@ void flipList(UniqueFibList list)
     }
     list->head = &help_head;
     free(help_head);
-    free(support_node);
-}
-
-void uniqueFibListDestroy(UniqueFibList list)
-{
-    ElementList* support_node = &list->element_list;
-    while (list->element_list != NULL)
-    {
-        if (list->element_list == *list->fib_zero)
-            list->element_list->next = NULL;
-        list->element_list = list->element_list->next;
-        free(*support_node);
-        support_node = &list->element_list;
-    }
     free(support_node);
 }
 
