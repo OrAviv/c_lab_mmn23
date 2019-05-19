@@ -21,6 +21,8 @@ long int fib(int n);
 UniqueFibListResult newFibList (UniqueFibList list, int number);
 void printBadNumberMessage();
 void flipList(UniqueFibList list);
+void destroyList(UniqueFibList list);
+
 
 
 

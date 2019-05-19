@@ -15,6 +15,7 @@ int main()
     {
         UniqueFibList my_list = uniqueFibListCreate(number);
         uniqueFibListPrint(my_list);
+        destroyList(my_list);
     }
 
     return 0;
