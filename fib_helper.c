@@ -7,13 +7,13 @@
 #include <stdio.h>
 
 
-typedef struct elementList_t
+struct elementList_t
 {
     long int data;
     struct elementList_t* next;
 };
 
-typedef struct uniqueFibList_t
+struct uniqueFibList_t
 {
     ElementList* head;
     ElementList* fib_zero;
